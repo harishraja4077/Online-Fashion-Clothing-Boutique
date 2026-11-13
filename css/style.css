@@ -1978,12 +1978,17 @@ input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
 .pm-meta .icon { width: 14px; height: 14px; color: var(--accent); }
 
 /* Checkout */
-.checkout-card { max-width: 1000px; padding: 0; overflow: hidden; }
+.checkout-card { max-width: 1000px; padding: 0; overflow-x: hidden; overflow-y: auto; }
 .checkout-head { padding: 34px 40px 0; }
 .checkout-head .eyebrow { margin-bottom: 8px; }
 .checkout-head .section-title { font-size: clamp(1.9rem, 3vw, 2.6rem); }
 .checkout-grid { display: grid; grid-template-columns: 1.3fr 0.85fr; }
 .checkout-form { padding: 24px 40px 36px; }
+@media (min-width: 981px) {
+  .checkout-head { padding-top: 26px; }
+  .checkout-form .field input,
+  .checkout-form .field select { height: 42px; }
+}
 .checkout-form h3 {
   margin: 16px 0 14px;
   font-family: var(--font-body);

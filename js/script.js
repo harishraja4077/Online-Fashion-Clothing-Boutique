@@ -59,7 +59,6 @@ const STORAGE = {
   coupon: "stackly_coupon_v1",
   orders: "stackly_orders_v1",
   customer: "stackly_customer_v1",
-  subscribers: "stackly_subscribers_v1",
 };
 
 /* ------------------------------- State ---------------------------------- */
@@ -1381,57 +1380,7 @@ function validateCheckout() {
 
 function handleCheckoutSubmit(event) {
   event.preventDefault();
-
-  if (!state.cart.length) {
-    showToast("Your bag is empty", { type: "error" });
-    closeLayer(ui.checkoutModal);
-    return;
-  }
-  if (!validateCheckout()) {
-    showToast("Please check the highlighted fields", { type: "error" });
-    return;
-  }
-
-  const data = Object.fromEntries(new FormData(ui.checkoutForm).entries());
-  const totals = computeTotals();
-  const now = new Date();
-  const orderNumber = `STK-${String(now.getTime()).slice(-6)}${Math.floor(10 + Math.random() * 90)}`;
-
-  const order = {
-    id: orderNumber,
-    date: now.toISOString(),
-    customer: {
-      name: String(data.name || "").trim(),
-      email: String(data.email || "").trim(),
-      phone: String(data.phone || "").trim(),
-      address: String(data.address || "").trim(),
-      city: String(data.city || "").trim(),
-      zip: String(data.zip || "").trim(),
-      country: String(data.country || "").trim(),
-      notes: String(data.notes || "").trim(),
-    },
-    payment: data.payment || "Card",
-    items: state.cart.map((item) => ({ ...item })),
-    totals,
-    coupon: state.coupon ? state.coupon.code : null,
-    eta: deliveryRange(),
-  };
-
-  const orders = storageGet(STORAGE.orders, []);
-  const orderList = Array.isArray(orders) ? orders : [];
-  orderList.unshift(order);
-  storageSet(STORAGE.orders, orderList.slice(0, 25));
-  storageSet(STORAGE.customer, order.customer);
-
-  state.cart = [];
-  state.coupon = null;
-  saveCart();
-  storageRemove(STORAGE.coupon);
-  renderCart();
-
-  closeLayer(ui.checkoutModal);
-  populateOrderModal(order);
-  openLayer(ui.orderModal);
+  window.location.href = "404.html";
 }
 
 function populateOrderModal(order) {
@@ -1767,25 +1716,7 @@ function handleNewsletterSubmit(event) {
 
   ui.newsletterEmail?.removeAttribute("aria-invalid");
   if (ui.newsletterMsg) ui.newsletterMsg.classList.remove("is-error");
-
-  const subscribers = storageGet(STORAGE.subscribers, []);
-  const list = Array.isArray(subscribers) ? subscribers : [];
-  const normalized = email.toLowerCase();
-
-  if (list.includes(normalized)) {
-    if (ui.newsletterMsg) {
-      ui.newsletterMsg.textContent = "You're already on the list — your code is WELCOME10.";
-    }
-  } else {
-    list.push(normalized);
-    storageSet(STORAGE.subscribers, list);
-    if (ui.newsletterMsg) {
-      ui.newsletterMsg.textContent = "You're in — check your inbox for your 10% welcome code.";
-    }
-    showToast("Welcome to the inner circle");
-  }
-
-  if (ui.newsletterEmail) ui.newsletterEmail.value = "";
+  window.location.href = "404.html";
 }
 
 /* ------------------------------ Events ---------------------------------- */
